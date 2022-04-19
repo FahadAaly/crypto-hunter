@@ -5,13 +5,14 @@ import {
   Select,
   Toolbar,
   Typography,
-  makeStyles,
-  createTheme,
-  ThemeProvider,
 } from "@material-ui/core";
-import React from "react";
+import {
+  createTheme,
+  makeStyles,
+  ThemeProvider,
+} from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-import { CryptoState } from "../CryptopContext";
+import { CryptoState } from "../CryptoContext";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
   },
 }));
+
 const darkTheme = createTheme({
   palette: {
     primary: {
@@ -31,11 +33,11 @@ const darkTheme = createTheme({
   },
 });
 
-export const Header = () => {
+function Header() {
   const classes = useStyles();
-  const history = useHistory();
   const { currency, setCurrency } = CryptoState();
-  console.log("currenct", currency);
+
+  const history = useHistory();
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -43,12 +45,13 @@ export const Header = () => {
         <Container>
           <Toolbar>
             <Typography
+              onClick={() => history.push(`/`)}
               variant="h6"
-              onClick={() => history.push("/")}
               className={classes.title}
             >
               Crypto Hunter
             </Typography>
+            {/* <Button color="inherit">Login</Button> */}
             <Select
               variant="outlined"
               labelId="demo-simple-select-label"
@@ -58,11 +61,13 @@ export const Header = () => {
               onChange={(e) => setCurrency(e.target.value)}
             >
               <MenuItem value={"USD"}>USD</MenuItem>
-              <MenuItem value={"PKR"}>PKR</MenuItem>
+              <MenuItem value={"INR"}>INR</MenuItem>
             </Select>
           </Toolbar>
         </Container>
       </AppBar>
     </ThemeProvider>
   );
-};
+}
+
+export default Header;
